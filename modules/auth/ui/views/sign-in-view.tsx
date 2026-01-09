@@ -12,6 +12,7 @@ import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { useState } from "react"
+import { FaGithub, FaGoogle } from 'react-icons/fa';
 
 // Define the schema for form validation
 const formSchema = z.object({
@@ -98,11 +99,27 @@ export const SignInView = () => {
                                     <span className="bg-card text-muted-foreground relative z-10 px-2">Or continue with</span>
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
-                                    <Button disabled={isSubmitting} className="w-full" variant="outline" type="button">
-                                        Google
+                                    <Button onClick={() => {
+                                        authClient.signIn.social({
+                                            provider: 'google',
+                                        })
+                                    }}
+                                        disabled={isSubmitting}
+                                        className="w-full"
+                                        variant="outline"
+                                        type="button">
+                                        <FaGoogle />
                                     </Button>
-                                    <Button disabled={isSubmitting} className="w-full" variant="outline" type="button">
-                                        GitHub
+                                    <Button onClick={() => {
+                                        authClient.signIn.social({
+                                            provider: 'github',
+                                        })
+                                    }}
+                                        disabled={isSubmitting}
+                                        className="w-full"
+                                        variant="outline"
+                                        type="button">
+                                        <FaGithub />
                                     </Button>
                                     <div className="text-sm text-center col-span-4 mt-2 gap-2 flex justify-center">
                                         Don&apos;t have an account? <Link href="/sign-up" className="text-blue-600 underline hover:text-blue-800">Sign Up</Link>
