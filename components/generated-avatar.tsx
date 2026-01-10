@@ -25,11 +25,12 @@ export const GeneratedAvatar = ({ seed, className, variant }: GeneratedAvatarPro
         });
     }
 
-    return
-    <Avatar className={cn(className)}>
-        <AvatarImage src={avatar.toDataUri()} alt="Avatar" />
-        <AvatarFallback>
-            {seed.charAt(0).toUpperCase()}
-        </AvatarFallback>
-    </Avatar>
+    return (
+        <Avatar className={cn(className)}>
+            <AvatarImage src={avatar.toDataUri()} alt="Avatar" />
+            <AvatarFallback>
+                {seed.charAt(0).toUpperCase()}
+            </AvatarFallback>
+        </Avatar>
+    );
 }
