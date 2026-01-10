@@ -20,15 +20,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <TRPCProvider>
-      <html lang="en">
-        <body
-          className={`${inter.className} antialiased`}
-        >
+    <html lang="en">
+      <body
+        className={`${inter.className} antialiased`}
+      >
+        <TRPCProvider>
           {children}
           <Toaster position="top-center" />
-        </body>
-      </html>
-    </TRPCProvider>
+        </TRPCProvider>
+      </body>
+    </html>
   );
 }
