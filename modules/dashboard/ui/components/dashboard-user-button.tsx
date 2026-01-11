@@ -30,7 +30,7 @@ export const DashboardUserButton = () => {
     if (isMobile) {
         return (
             <Drawer>
-                <DrawerTrigger className="rounded-lg hover:bg-gray-100 px-3 py-2 w-full flex items-center">
+                <DrawerTrigger className="rounded-lg overflow-hidden hover:bg-gray-100 px-3 py-2 w-full flex items-center">
                     {data.user.image ? (
                         <Avatar>
                             <AvatarImage src={data.user.image} />
@@ -40,7 +40,7 @@ export const DashboardUserButton = () => {
                             <CircleUser size={28} />
                         </Avatar>
                     )}
-                    <div className="flex flex-col items-start ml-3 text-left">
+                    <div className="flex-1 flex flex-col items-start ml-3 text-left min-w-0">
                         <p className="text-sm font-medium truncate">{data.user.name}</p>
                         <p className="text-xs text-muted-foreground truncate">{data.user.email}</p>
                     </div>
@@ -57,7 +57,7 @@ export const DashboardUserButton = () => {
                                     <CircleUser size={28} />
                                 </Avatar>
                             )}
-                            <div className="flex flex-col items-start ml-3 text-left">
+                            <div className="flex-1 flex flex-col items-start ml-3 text-left min-w-0">
                                 <p className="text-sm font-medium truncate">{data.user.name}</p>
                                 <p className="text-xs text-muted-foreground truncate">{data.user.email}</p>
                             </div>
@@ -97,7 +97,7 @@ export const DashboardUserButton = () => {
     }
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger className="rounded-lg hover:bg-gray-100 px-3 py-2 w-full flex items-center">
+            <DropdownMenuTrigger className="rounded-lg overflow-hidden border border-gray-300 shadow-sm hover:bg-gray-100 px-3 py-2 w-full flex items-center">
                 {data.user.image ? (
                     <Avatar>
                         <AvatarImage src={data.user.image} />
@@ -107,7 +107,7 @@ export const DashboardUserButton = () => {
                         <CircleUser size={28} />
                     </Avatar>
                 )}
-                <div className="flex flex-col items-start ml-3 text-left">
+                <div className="flex-1 flex flex-col items-start ml-2 text-left min-w-0">
                     <p className="text-sm font-medium truncate">{data.user.name}</p>
                     <p className="text-xs text-muted-foreground truncate">{data.user.email}</p>
                 </div>
