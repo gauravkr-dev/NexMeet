@@ -43,6 +43,24 @@ export const AgentForm = ({
         },
     });
 
+
+    const updateAgentMutation = trpc.agents.update.useMutation({
+        onSuccess: () => {
+            // Invalidate the `getMany` agents query so lists refresh
+            void utils.agents.getMany.invalidate();
+            if (initialValues?.id) {
+                void utils.agents.getOne.invalidate({ id: initialValues.id });
+            }
+            onSuccess?.();
+            toast.success("Agent updated successfully");
+        },
+        onError: (error) => {
+            toast.error(error.message);
+
+            // TODO: if error is "Forbidden", redirect to /upgrade
+        },
+    });
+
     const form = useForm<z.infer<typeof agentInsertSchema>>({
         resolver: zodResolver(agentInsertSchema),
         defaultValues: {
@@ -52,11 +70,11 @@ export const AgentForm = ({
     })
 
     const isEdit = !!initialValues?.id;
-    const isPending = createAgentMutation.isPending;
+    const isPending = createAgentMutation.isPending || updateAgentMutation.isPending;
 
     const onSubmit = (values: z.infer<typeof agentInsertSchema>) => {
         if (isEdit) {
-            console.log("Edit agent not implemented yet");
+            updateAgentMutation.mutate({ ...values, id: initialValues!.id });
         } else {
             createAgentMutation.mutate(values);
         }
@@ -102,8 +120,8 @@ export const AgentForm = ({
                             Cancel
                         </Button>
                     )}
-                    <Button type="submit" disabled={isPending}>
-                        {isPending ? "Creating..." : isEdit ? "Update Agent" : "Create Agent"}
+                    <Button type="submit" disabled={isPending} aria-busy={isPending}>
+                        {isPending ? (isEdit ? "Updating..." : "Creating...") : (isEdit ? "Update Agent" : "Create Agent")}
                     </Button>
                 </div>
             </form>
