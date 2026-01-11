@@ -18,13 +18,13 @@ export const AgentIdView = ({ agentId }: AgentIdViewProps) => {
 
     if (isLoading) {
         return <LoadingState
-            title="Loading Agents"
-            description="Please wait while we fetch the agents..."
+            title="Loading Agent"
+            description="Please wait while we fetch the agent..."
         />;
     }
     if (error) {
         return <ErrorState
-            title="Error Loading Agents"
+            title="Error Loading Agent"
             description="Please try again later."
         />;
     }
