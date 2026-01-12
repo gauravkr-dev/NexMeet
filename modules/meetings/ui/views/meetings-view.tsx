@@ -22,8 +22,8 @@ export const MeetingsView = () => {
         />;
     }
     return (
-        <div>
-            {JSON.stringify(data)}
+        <div className="">
+            {JSON.stringify(data, null, 2)}
         </div>
     )
 }
