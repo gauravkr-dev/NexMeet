@@ -154,7 +154,7 @@ export const MeetingForm = ({
                             </Button>
                         )}
                         <Button type="submit" disabled={isPending} aria-busy={isPending}>
-                            {isPending ? (isEdit ? "Updating..." : "Creating...") : (isEdit ? "Update Agent" : "Create Agent")}
+                            {isPending ? (isEdit ? "Updating..." : "Creating...") : (isEdit ? "Update Meeting" : "Create Meeting")}
                         </Button>
                     </div>
                 </form>
