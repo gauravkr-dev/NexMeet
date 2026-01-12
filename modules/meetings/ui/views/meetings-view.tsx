@@ -11,13 +11,13 @@ export const MeetingsView = () => {
 
     if (isLoading) {
         return <LoadingState
-            title="Loading Agents"
-            description="Please wait while we fetch the agents..."
+            title="Loading Meetings"
+            description="Please wait while we fetch your meetings..."
         />;
     }
     if (error) {
         return <ErrorState
-            title="Error Loading Agents"
+            title="Error Loading Meetings"
             description="Please try again later."
         />;
     }
