@@ -59,7 +59,7 @@ export const MeetingForm = ({
             if (initialValues?.id) {
                 void utils.meetings.getOne.invalidate({ id: initialValues.id });
             }
-            onSuccess?.();
+            onSuccess?.(initialValues?.id);
             toast.success("Meeting updated successfully");
         },
         onError: (error) => {
