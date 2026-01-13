@@ -7,7 +7,7 @@ export const MeetingsSearchFilter = () => {
     return (
         <div className="relative">
             <Input
-                value={filters.search}
+                value={filters.search ?? ""}
                 onChange={(e) => setFilters({ search: e.target.value, page: 1 })}
                 className="h-9 bg-white w-[200px] pl-7"
                 placeholder="Search meetings..."
