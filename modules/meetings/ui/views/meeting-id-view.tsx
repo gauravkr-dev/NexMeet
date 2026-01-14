@@ -9,6 +9,10 @@ import { toast } from "sonner";
 import { useConfirm } from "@/hooks/use-confirm";
 import { UpdateMeetingDialog } from "../components/update-meeting-dialog";
 import { useState } from "react";
+import { UpcomingState } from "../components/upcoming-state";
+import { ActiveState } from "../components/active-state";
+import { CancelState } from "../components/cancel-state";
+import { ProcessState } from "../components/process-state";
 
 interface Props {
     meetingId: string;
@@ -66,6 +70,13 @@ export const MeetingIdView = ({ meetingId }: Props) => {
             description="The requested meeting could not be found."
         />;
     }
+
+    const isActive = data.status === 'active';
+    const isUpcoming = data.status === 'upcoming';
+    const isCompleted = data.status === 'completed';
+    const isProcessing = data.status === 'processing';
+    const isCancelled = data.status === 'cancelled';
+
     return (
         <>
             <RemoveConfirmation />
@@ -81,7 +92,15 @@ export const MeetingIdView = ({ meetingId }: Props) => {
                     onEdit={() => setOpenUpdateDialog(true)}
                     onRemove={handleRemoveAgent}
                 />
-                <h1>{data.name}</h1>
+                {isCancelled && <CancelState />}
+                {isCompleted && <div>Completed</div>}
+                {isActive && <ActiveState meetingId={meetingId} />}
+                {isUpcoming && <UpcomingState
+                    meetingId={meetingId}
+                    onCancelMeeting={() => { }}
+                    isCancelling={false}
+                />}
+                {isProcessing && <ProcessState />}
             </div>
         </>
     )

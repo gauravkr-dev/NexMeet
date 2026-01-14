@@ -39,9 +39,14 @@ const statusColorMap = {
 function normalizeStatus(raw?: string | null) {
     if (!raw) return "";
     const s = String(raw).toLowerCase().trim();
-    // handle common misspellings or variants
-    if (s === "upcomming") return "upcoming";
-    if (s === "in_progress") return "active";
+
+    // Normalize common status values and common misspellings/variants
+    if (s === "upcoming" || s === "upcomming" || s.includes("upcom")) return "upcoming";
+    if (s === "active" || s === "in progress" || s === "in-progress") return "active";
+    if (s === "completed" || s === "complete" || s === "done") return "completed";
+    if (s === "processing" || s === "processing..." || s === "in processing") return "processing";
+    if (s === "cancelled" || s === "canceled" || s === "cancel") return "cancelled";
+
     return s;
 }
 
@@ -112,3 +117,4 @@ export const columns: ColumnDef<MeetingGetMany[number]>[] = [
     }
 
 ]
+
