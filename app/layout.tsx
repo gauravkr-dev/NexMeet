@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+// Stream Video SDK styles
+// package provides `styles.css` under `dist/css` (not `index.css`)
+import "@stream-io/video-react-sdk/dist/css/styles.css";
 import { Toaster } from "@/components/ui/sonner";
 import { TRPCProvider } from "@/trpc/client";
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
