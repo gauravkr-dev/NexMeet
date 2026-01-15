@@ -10,7 +10,7 @@ interface Props {
     meetingName?: string;
 }
 
-export const CallUi = ({ meetingId, meetingName }: Props) => {
+export const CallUi = ({ meetingName }: Props) => {
     const call = useCall();
     const [show, setShow] = useState<"lobby" | "call" | "ended">("lobby");
 
