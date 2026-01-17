@@ -54,10 +54,13 @@ export const CompletedState = ({ data }: Props) => {
                 </div>
                 <TabsContent value="recording">
                     <div className="mt-4 rounded-lg border px-4 py-5">
-                        <video src={data.recordingUrl!}
-                            className="w-full rounded-lg"
-                            controls
-                        />
+                        {data.recordingUrl && (
+                            <video
+                                src={data.recordingUrl}
+                                className="w-full rounded-lg"
+                                controls
+                            />
+                        )}
                     </div>
                 </TabsContent>
                 <TabsContent value="summary">
