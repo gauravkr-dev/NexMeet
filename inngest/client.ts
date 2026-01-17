@@ -1,0 +1,1 @@
+export { inngest } from "../app/inngest/client";
