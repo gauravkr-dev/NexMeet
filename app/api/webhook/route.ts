@@ -190,7 +190,7 @@ If info is missing, say so politely.
             }));
 
         const completion = await llm.chat.completions.create({
-            model: "meta-llama/llama-3.1-8b-instruct:free",
+            model: "allenai/molmo-2-8b:free",
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             messages: [{ role: "system", content: instructions }, ...history] as any[],
         });
