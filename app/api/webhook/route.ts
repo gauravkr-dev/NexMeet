@@ -17,10 +17,10 @@ import { streamChat } from "@/lib/stream-chat";
 import { generatedAvatarUri } from "@/lib/avatar";
 
 // ===== Gemini API Client =====
-const openaiClient = new OpenAI({
-    apiKey: process.env.GEMINI_API_KEY,
-    baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/",
-});
+// NOTE: do not instantiate the OpenAI client at module scope — Next.js
+// collects page data at build-time which would cause the OpenAI
+// constructor to require credentials during build. Instantiate lazily
+// inside the request handler instead.
 
 function verifySignatureWithSDK(body: string, signature: string): boolean {
     return streamVideo.verifyWebhook(body, signature);
@@ -45,6 +45,17 @@ export async function POST(req: NextRequest) {
         payload = JSON.parse(body) as Record<string, unknown>;
     } catch {
         return NextResponse.json({ error: "Invalid JSON payload" }, { status: 400 });
+    }
+
+    // Lazily initialize Gemini / OpenAI client at request time to avoid
+    // requiring credentials during build.
+    const geminiKey = process.env.GEMINI_API_KEY;
+    let openaiClient: OpenAI | undefined;
+    if (geminiKey) {
+        openaiClient = new OpenAI({
+            apiKey: geminiKey,
+            baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/",
+        });
     }
 
     const eventType = (payload as Record<string, unknown>)?.type;
@@ -78,9 +89,13 @@ export async function POST(req: NextRequest) {
         const call = streamVideo.video.call("default", meetingId);
 
         // === Connect Real-time Gemini AI ===
+        if (!geminiKey) {
+            return NextResponse.json({ error: "Server misconfigured: missing GEMINI_API_KEY" }, { status: 500 });
+        }
+
         const realtimeClient = await streamVideo.video.connectOpenAi({
             call,
-            openAiApiKey: process.env.GEMINI_API_KEY!,
+            openAiApiKey: geminiKey,
             model: "gemini-2.5-flash",
             agentUserId: existingAgent.id,
         });
@@ -93,6 +108,8 @@ export async function POST(req: NextRequest) {
         // === Live speech handling ===
         realtimeClient.on("speechInput", async (speechText: string) => {
             // 1️⃣ Send live speech text to Gemini AI
+            if (!openaiClient) return;
+
             const GPTResponse = await openaiClient.chat.completions.create({
                 model: "gemini-2.5-flash",
                 messages: [
@@ -194,6 +211,8 @@ Original Instructions: ${existingAgent.instructions}
                     role: msg.user?.id === existingAgent.id ? "assistant" : "user",
                     content: msg.text || "",
                 }));
+
+            if (!openaiClient) return NextResponse.json({ error: "Server misconfigured: missing GEMINI_API_KEY" }, { status: 500 });
 
             const GPTResponse = await openaiClient.chat.completions.create({
                 model: "gemini-2.5-flash",
