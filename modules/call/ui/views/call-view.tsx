@@ -3,6 +3,7 @@ import { ErrorState } from "@/components/error-state";
 import { LoadingState } from "@/components/loading-state";
 import { trpc } from "@/trpc/client";
 import { CallProvider } from "../components/call-provider";
+import AIVoiceAssistant from "../components/ai-voice-assistant";
 
 interface Props {
     meetingId: string;
@@ -46,6 +47,7 @@ export const CallView = ({ meetingId }: Props) => {
     return (
         <div>
             <CallProvider meetingId={meetingId} meetingName={data?.name} />
+            <AIVoiceAssistant />
         </div>
     )
 }
